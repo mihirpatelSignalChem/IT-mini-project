@@ -9,3 +9,5 @@
 6. Edit Product Page
 7. Edit Quantity Page
 8. Product Details Page
+
+## SQL Dump is inventory database.sql file
