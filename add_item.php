@@ -24,12 +24,6 @@
             <li class="nav-item active">
               <a class="nav-link" href="add_item.php">Add Product</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="edit_item.php">Edit Product</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="edit_quantity.php">Edit Quantity</a>
-            </li>
           </ul>
           <h5 class= "my-2 mr-sm-2 text-light">
             <?php include "process_client_session.php"; ?>
@@ -46,26 +40,26 @@
             session_start();
         }
         if(isset($_POST['add'])){
-            $product_id = $_POST['product_id'];
+            
+            $product_id = null;
             $name = $_POST['name'];
             $type = $_POST['type'];
             $price = $_POST['price'];
             $quantity = $_POST['quantity'];
 
-            $check_record_sql = "select * from products where product_id=$product_id";
-            $result = $db_connection->query($check_record_sql);
+           
+            $add_product_sql = "insert into products (name, type, price, quantity) values ('$name', '$type', '$price', '$quantity')";
+            //$db_connection->query($add_product_sql) or die ($db_connection->error);
 
-            if($result->num_rows == 1){ ?>
-                <div class="alert alert-danger"> Item already exists </div>
-            <?php }
+            if($db_connection -> query($add_product_sql)){
+              //echo "Product Added";
+              $_SESSION['message'] = "Product Added";
+              $_SESSION['msg_type'] = "success";
+              header("Location:http://localhost/Practice/home.php");
+            }
             else{
-                $add_product_sql = "insert into products (product_id, name, type, price, quantity) values ('$product_id', '$name', '$type', '$price', '$quantity')";
-                $db_connection->query($add_product_sql) or die ($db_connection->error);
-
-                $_SESSION['message'] = "Product Added";
-                $_SESSION['msg_type'] = "success";
-
-                header("Location:http://localhost/Practice/home.php");
+              
+              echo "Error: " . $sql . "<br>" . $conn->error;
             }
 
         }    
@@ -76,10 +70,10 @@
             <div class="form-group text-center">
                 <label > <h3><b>Add Product </b></h3></label>
             </div>
-            <div class="form-group">
+             <!-- <div class="form-group">
                 <label for="product_id">Product Id:</label>
                 <input type="text" class="form-control"  id="add_product_id" name="product_id" required>
-            </div>
+            </div> -->
             <div class="form-group">
                 <label for="add_name">Product Name:</label>
                 <input type="text" class="form-control" id="add_name" name="name" required>

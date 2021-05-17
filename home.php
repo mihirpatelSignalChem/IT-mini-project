@@ -11,7 +11,7 @@
   </head>
   <body>
     
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-1">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -22,23 +22,52 @@
             <li class="nav-item active">
               <a class="nav-link" href="home.php">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="add_item.php">Add Product</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="edit_item.php">Edit Product</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="edit_quantity.php">Edit Quantity</a>
-            </li>
+            <?php
+                if(!isset($_SESSION)) { 
+                    session_start(); 
+                }
+                //session active
+                if(isset($_SESSION["logged_in"])){
+                  ?>  <li class="nav-item">
+                      <a class="nav-link" href="add_item.php"> Add Product</a>
+                    </li>
+                <?php }
+                else{
+                   }
+            ?>
           </ul>
           <h5 class= "my-2 mr-sm-2 text-light">
-            <?php include "process_client_session.php" ?>
-              </h5>
+            <?php 
+            
+                //session active
+                if(isset($_SESSION["logged_in"])){
+                      //admin
+                      if($_SESSION['is_admin'] === "true"){
+                          header("Location:http://localhost/Practice/page_not_found.php");
+                      }
+                      //user
+                      else{
+                          echo $_SESSION["username"];
+                      ?>    </h5>
+                          <form class="form-inline my-2 my-lg-0" action="logout.php" method="POST">
+                                <button class="btn btn-light btn-outline-danger  my-2 my-sm-0" type="submit">Log out</button>
+                          </form>
+                <?php }
+                }
+                //session not active
+                else{
+                    ?>  </h5>
+                    <form class="form-inline my-2 my-lg-0" action="login.php" method="POST">
+                          <button class="btn btn-light btn-outline-danger  my-2 my-sm-0" type="submit">Log In</button>
+                    </form>
+                  
+            <?php }
+            ?>
+              <!-- </h5>
           <form class="form-inline my-2 my-lg-0" action="logout.php" method="POST">
             
             <button class="btn btn-light btn-outline-danger  my-2 my-sm-0" type="submit">Log out</button>
-          </form>
+          </form> -->
         </div>
       </nav>
     
@@ -69,23 +98,12 @@
           {
               //print $result -> fetch_assoc();
       ?>
-      <div class="container text-center mt-3">
-          <label> <h3> Products </h3></label>
+      <div class="container text-center">
+          <h1 class="text-center bg-primary text-white p-3">Products</h1>
       </div>
 
       <div class="container text-center">
-          <!-- <label> <h3> Products </h3></label> -->
-          <!-- <div class="row"> 
-                    <div class="col-sm-4 col-md-4 col-lg-4 p-3">
-                      <a class="btn btn-primary" href="add_item.php" role="button">Add Product</a>
-                    </div>
-                    <div class="col-sm-4 col-md-4 col-lg-4 p-3">
-                      <a class="btn btn-primary" href="edit_item.php" role="button">Edit Product</a>
-                    </div>
-                    <div class="col-sm-4 col-md-4 col-lg-4 p-3">
-                      <a class="btn btn-primary" href="edit_quantity.php" role="button">Edit Quantity</a>
-                    </div>
-          </div> -->
+          
           <table class="table table-striped">
               <thead>
                   <tr>
@@ -103,7 +121,7 @@
             ?>
               <tbody>
                     <tr>
-                    <td> <a href = "product_details.php?fetch=<?php echo $row['product_id']; ?>"> <?php echo $row['product_id'] ?> </td>
+                    <td> <a href = "product_details.php?fetch=<?php echo $row['product_id']; ?>"> <?php echo $row['product_id']; ?> </td>
                     <td> <?php echo $row['name'] ?></td>
                     <td> <?php echo $row['type'] ?> </td>
                     <td> <?php echo $row['price'] ?> </td>

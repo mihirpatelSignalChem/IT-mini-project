@@ -21,14 +21,16 @@
             <li class="nav-item ">
               <a class="nav-link" href="home.php">Home <span class="sr-only">(current)</span></a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link" href="add_item.php">Add Product</a>
             </li>
+
             <li class="nav-item">
-              <a class="nav-link" href="edit_item.php">Edit Product</a>
+              <a class="nav-link" href="edit_item.php?fetch=<?php echo $_GET['fetch']; ?>"> Edit Product</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="edit_quantity.php">Edit Quantity</a>
+              <a class="nav-link" href="edit_quantity.php?fetch=<?php echo $_GET['fetch']; ?>"> Edit Quantity</a>
             </li>
           </ul>
           <h5 class= "my-2 mr-sm-2 text-light">
@@ -47,42 +49,31 @@
             session_start();
         }
         if(isset($_POST['edit'])){
-            $product_id = $_POST['product_id'];
+
+            $product_id = $_GET['fetch'];
             $quantity = $_POST['quantity'];
-            $date = date("Y/m/d");
-            // echo $product_id;
-            // echo $quantity;
-
-            $check_record_sql = "select * from products where product_id=$product_id";
-            $result = $db_connection->query($check_record_sql);
-            if($result->num_rows == 1){
-                $edit_product_sql = "update products set quantity='$quantity' where product_id=$product_id";
-                
-                $db_connection->query($edit_product_sql) or die ($db_connection->error);
-                
-                $insert_pruduct_log_sql = "insert into product_details (product_id, date, quantity) values ('$product_id', '$date', '$quantity')";
-                //$add_product_sql = "insert into products (product_id, name, type, price, quantity) values ('$product_id', '$name', '$type', '$price', '$quantity')";
-                $db_connection->query($insert_pruduct_log_sql) or die ($db_connection->error);            
-
-                $_SESSION['message'] = "Quantity Updated";
-                $_SESSION['msg_type'] = "success";
-                header("Location:http://localhost/Practice/home.php");
-            }
-            else{ ?>
-                <div class="alert alert-danger"> Record does not exist</div>
-            <?php }
+            $date = date("Y-m-d H:i:s");
             
+            $edit_product_sql = "update products set quantity=$quantity where product_id=$product_id";
+            
+            $db_connection->query($edit_product_sql) or die ($db_connection->error);
+            
+            $insert_pruduct_log_sql = "insert into product_details (product_id, date, quantity) values ($product_id, '$date', $quantity)";
+            $db_connection->query($insert_pruduct_log_sql) or die ($db_connection->error);            
+
+            $_SESSION['message'] = "Quantity Updated";
+            $_SESSION['msg_type'] = "success";
+
+            $db_connection->close();
+
+            header("Location:http://localhost/Practice/home.php");
         }
     ?>
     
     <div class="container mt-5">
-        <form action="edit_quantity.php" method="POST" >
+        <form action="" method="POST" >
             <div class="form-group text-center" >
                 <label> <h3><b>Edit Quantity</b></h3></label>
-            </div>
-            <div class="form-group">
-                <label for="product_id">Product Id:</label>
-                <input type="text" class="form-control"  id="product_id" name="product_id" required>
             </div>
             <div class="form-group">
                 <label for="quantity">Quantity</label>

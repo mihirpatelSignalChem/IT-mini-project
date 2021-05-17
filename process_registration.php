@@ -27,7 +27,7 @@
             <?php }
             else{
                 session_start();
-                $_SESSION['message'] = "User Added Successfully"; 
+                //$_SESSION['message'] = "User Added Successfully"; 
                 if(isset($_POST["is_admin"]) && $_POST["is_admin"]==="true"){
                     
                     $is_admin = $_POST["is_admin"];
@@ -54,16 +54,11 @@
                     $db_connection->query($add_user_sql) or die ($db_connection->error);
                 }
                 
-                $_SESSION['message'] = "User Added successfully";
+                $_SESSION['message'] = "User Registered.";
                 $_SESSION['msg_type'] = "success";
-                ?>
-                
-                <!-- discuss with Arthur -->
-                <!-- <div class="alert alert-success"> User Added successfully </div> -->
-                
 
-            <?php 
-            
+
+
                 header("Location:http://localhost/Practice/login.php");
             }
 
