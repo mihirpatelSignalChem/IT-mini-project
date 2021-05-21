@@ -108,7 +108,6 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <ul class = "list-group" id = "filter">
-                    <li class = "list-group-item dropdown-item"> All </li>
                     <?php
                         require("mysqli_connect.php");
                         $fetch_categories = "select distinct type from inventory.products";
@@ -173,12 +172,12 @@
       // });
 
         $(document).ready(function(){
-          var product_count = 2;
+          var product_count = 5;
 
           //more products loaded when button is clicked
             $("#button1").click(function(){
                 //$("#product-data").load("table_data.php");
-                product_count = product_count + 2;
+                product_count = product_count + 5;
 
                 //echo var_dump($product_count);
                 $.ajax({
