@@ -1,6 +1,9 @@
 <?php
           require("mysqli_connect.php");
 
+          if(!isset($_SESSION)) { 
+              session_start(); 
+          }
             $product_new_count = $_POST['product_new_count'];
          //echo var_dump($product_new_count);
             $product_new_count = intval($product_new_count);
@@ -22,9 +25,13 @@
                   <th scope='col'>Name</th>
                   <th scope='col'>type</th>
                   <th scope='col'>Price</th>
-                  <th scope='col'>Quantity</th>
-                  <th scope='col'>Delete</th>
-                  </tr>
+                  <th scope='col'>Quantity</th>";
+                  if(isset($_SESSION["logged_in"])){
+                        if($_SESSION['logged_in'] === "true"){
+                            echo "<th scope='col'>Delete</th>";
+                        }
+                  }
+                echo "</tr>
               </thead>";
               
              
@@ -41,8 +48,13 @@
                     echo "<td>". $row['price'] ."</td>";
                     echo "<td>". $row['quantity'] ."</td>";
                     
-                    ?><td> <a href = "home.php?delete=<?php echo $row['product_id']; ?>" class="btn btn-danger">Delete</td>
-                    <?php
+                    if(isset($_SESSION["logged_in"])){
+                        if($_SESSION['logged_in'] === "true"){
+                            ?><td> <a href = "home.php?delete=<?php echo $row['product_id']; ?>" class="btn btn-danger">Delete</td>
+                            <?php
+                        }
+                    }
+
                     echo "</tr>";
                 echo "</tbody>";
           }
