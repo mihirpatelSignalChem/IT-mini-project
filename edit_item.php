@@ -48,7 +48,7 @@
         }
         if(isset($_POST['edit'])){
             $product_id = $_GET['fetch'];
-            // $product_id = $_POST['product_id'];
+            $product_id = $_POST['product_id'];
             $name = $_POST['name'];
             $type = $_POST['type'];
             $price = $_POST['price'];
@@ -68,7 +68,7 @@
                 $_SESSION['msg_type'] = "success";
               
                 $db_connection->close();  
-                header("Location:http://localhost/Practice/home.php");
+                header("Location:home.php");
             //}
             // else{?>
             <!-- //     <div class="alert alert-danger"> Record does not exist</div> -->
@@ -81,7 +81,11 @@
                 <label> <h3><b>Edit Product</b></h3></label>
             </div>
             <div class="form-group">
-                <label for="add_name">Product Name:</label>
+                <label for="id">Product Id:</label>
+                <input type="text" class="form-control" id="product_id" name="product_id">
+            </div>
+            <div class="form-group">
+                <label for="name">Product Name:</label>
                 <input type="text" class="form-control" id="name" name="name">
             </div>
             <div class="form-group">

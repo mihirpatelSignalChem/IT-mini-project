@@ -31,6 +31,12 @@
                   ?>  <li class="nav-item">
                       <a class="nav-link" href="add_item.php"> Add Product</a>
                     </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="edit_item.php"> Edit Product</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="edit_quantity.php"> Edit Quantity</a>
+                    </li>
                 <?php }
                 else{
                    }
@@ -53,7 +59,7 @@
                 if(isset($_SESSION["logged_in"])){
                       //admin
                       if($_SESSION['is_admin'] === "true"){
-                          header("Location:http://localhost/Practice/page_not_found.php");
+                          header("Location:page_not_found.php");
                       }
                       //user
                       else{
@@ -146,7 +152,7 @@
         
         </div>
         
-        <button class="btn btn-success" id="button1">Load More</button> 
+        
       </div>
  
     </div>
@@ -160,42 +166,51 @@
     <script>
 
 
-      // $(document).ready(function(){
-        
-      //   $.ajax({
-      //     url: 'table_data.php',
-      //     success: function(data){
-            
-      //       $("#product-data").html(data);
-      //     }
-      //   })
-      // });
-
         $(document).ready(function(){
-          var product_count = 5;
-
+            var product_count = 5;
           //more products loaded when button is clicked
-            $("#button1").click(function(){
-                //$("#product-data").load("table_data.php");
-                product_count = product_count + 5;
+          //   $("#button1").click(function(){
+          //       //$("#product-data").load("table_data.php");
+          //       product_count = product_count + 5;
 
-                //echo var_dump($product_count);
-                $.ajax({
-                  url: 'table_data.php',
-                  type:"POST",
-                  data: {product_new_count : product_count},
+          //       //echo var_dump($product_count);
+          //       $.ajax({
+          //         url: 'table_data.php',
+          //         type:"POST",
+          //         data: {product_new_count : product_count},
                   
-                  success: function(data){
-                      $("#product-data").html(data);
-                  }
-                })
-            });
+          //         success: function(data){
+          //             $("#product-data").html(data);
+          //         }
+          //       })
+          //   });
 
-            //default product loads
-            $("#product-data").load("table_data.php", {
-                product_new_count:product_count
-            });
+          //   //default product loads
+          //   $("#product-data").load("table_data.php", {
+          //       product_new_count:product_count
+          //   });
 
+            //products loaded
+            function loadData(page){
+              $.ajax({
+                url  : "pagination.php",
+                type : "POST",
+                cache: false,
+                data : {page_no:page},
+                success:function(response){
+                  $("#product-data").html(response);
+                }
+              });
+            }
+            loadData();
+            
+            // Pagination code
+            $(document).on("click", ".pagination li a", function(e){
+              e.preventDefault();
+              var pageId = $(this).attr("id");
+              loadData(pageId);
+            });
+  
             //Search bar
             $("#search_input").on("keyup", function() {
               var value = $(this).val().toLowerCase();
@@ -218,16 +233,6 @@
             });
 
         });
-
-        // $(document).ready(function() {
-        //     var product_count = 2;
-        //     $("#button1").click(fucntion() {
-        //         product_count = product_count + 2;
-        //         $("#product-data").load("table_data.php", {
-        //             product_new_count:product_count
-        //         });
-        //     });
-        // });
 
     </script>
 

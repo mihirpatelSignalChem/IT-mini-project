@@ -59,7 +59,7 @@
 
 
 
-                header("Location:http://localhost/Practice/login.php");
+                header("Location:login.php");
             }
 
         }

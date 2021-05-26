@@ -34,12 +34,14 @@
                             }
                             
                             $_SESSION["username"] = $row["first_name"];
-                            echo $_SESSION["username"];
-                            echo "<br>";
-                            echo $_SESSION["logged_in"];
+
+                            //echo $_SESSION["username"];
+                            //echo "<br>";
+                            //echo $_SESSION["logged_in"];
                             $_SESSION["logged_in"] = "true";
                             //to check whether 
                             $_SESSION["is_admin"] = "false";
+                            echo $_SERVER['DOCUMENT_ROOT'];
                             header("Location:home.php");
                             //exit;
                         }
@@ -49,12 +51,12 @@
                                 session_start();
                             }
                             $_SESSION["username"] = $row["first_name"];
-                            echo $_SESSION["username"];
-                            echo "<br>";
-                            echo $_SESSION["logged_in"];
+                            //echo $_SESSION["username"];
+                            //echo "<br>";
+                            //echo $_SESSION["logged_in"];
                             $_SESSION["logged_in"] = "true";
                             $_SESSION["is_admin"] = "true";
-                            header("Location:admin_home.php");
+                           header("Location:admin_home.php");
                         }
                     }
                     //user is not deactivated

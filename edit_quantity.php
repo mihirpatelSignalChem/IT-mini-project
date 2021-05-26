@@ -52,6 +52,7 @@
 
             $product_id = $_GET['fetch'];
             $quantity = $_POST['quantity'];
+            $product_id = $_POST['product_id'];
             $date = date("Y-m-d H:i:s");
             
             $edit_product_sql = "update products set quantity=$quantity where product_id=$product_id";
@@ -66,7 +67,7 @@
 
             $db_connection->close();
 
-            header("Location:http://localhost/Practice/home.php");
+            header("Location:home.php");
         }
     ?>
     
@@ -74,6 +75,10 @@
         <form action="" method="POST" >
             <div class="form-group text-center" >
                 <label> <h3><b>Edit Quantity</b></h3></label>
+            </div>
+            <div class="form-group">
+                <label for="id">Product Id</label>
+                <input type="text" class="form-control" id="product_id" name="product_id" required>
             </div>
             <div class="form-group">
                 <label for="quantity">Quantity</label>

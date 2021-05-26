@@ -55,7 +55,7 @@
               //echo "Product Added";
               $_SESSION['message'] = "Product Added";
               $_SESSION['msg_type'] = "success";
-              header("Location:http://localhost/Practice/home.php");
+              header("Location:http://localhost/Practice Pagination/IT-mini-project/home.php");
             }
             else{
               
